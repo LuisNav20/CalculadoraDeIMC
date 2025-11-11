@@ -35,7 +35,7 @@ class CalculadoraIMC{
     generarResumen(){
         const datos = this.obtenerCategoria();
         return `Tu IMC es: <strong>${datos.imc}</strong> <br>
-                Categoría: <strong>${datos.categoria}</strong>`;
+                Por lo que tu categoría es: <strong>${datos.categoria}</strong>`;
     }
 }
 
