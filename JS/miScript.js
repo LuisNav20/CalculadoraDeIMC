@@ -31,23 +31,13 @@ class CalculadoraIMC{
         return {categoria, imagen, imc};
     }
 
-    obtenerRecomendacion(imc){
-        if(imc < 18.5) return "Te conviene subir de peso de forma saludable.";
-        if(imc < 25) return "¡Excelente! Mantén tus buenos hábitos.";
-        if(imc < 30) return "Cuida un poco tu alimentación y mantente activo.";
-        return "Intenta mejorar hábitos y considera consultar a un especialista.";
-    }
-
     generarResumen(){
         const d = this.obtenerCategoria();
-        const reco = this.obtenerRecomendacion(d.imc);
         const fecha = new Date().toLocaleString();
 
         return `
             Tu IMC es: <strong>${d.imc}</strong> <br>
             Categoría: <strong>${d.categoria}</strong> <br>
-            <em>${reco}</em> <br><br>
-            <small>Fecha del cálculo: ${fecha}</small>
         `;
     }
 }
