@@ -84,7 +84,7 @@ function guardarHistorial(imc){
     localStorage.setItem("histIMC", JSON.stringify(his));
 
     const resumen = document.getElementById("resumen");
-    resumen.innerHTML += `<br><br><strong>Historial reciente:</strong> ${his.join(" | ")}`;
+
 }
 
 document.getElementById('limpiar').addEventListener("click",()=>{
