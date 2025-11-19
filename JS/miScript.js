@@ -15,16 +15,16 @@ class CalculadoraIMC{
         let imagen = "";
 
         if(imc < 18.5){
-            categoria = "Bajo peso";
+            categoria = "Bajo peso, oye pequeñe deberias comer más";
             imagen = "Image/bajoPeso.png";
         }else if(imc < 25){
-            categoria = "Peso normal";
+            categoria = "Peso coquet (normal)";
             imagen = "Image/pesoNormal.jpg";
         }else if(imc < 30){
-            categoria = "Sobrepeso";
+            categoria = "Sobrepeso vas por el camino de AimeP3";
             imagen = "Image/sobrePeso.jpg";
         }else{
-            categoria = "Obesidad";
+            categoria = "Obesidad, oh no la politziaaa";
             imagen = "Image/obesidad.jpg";
         }
 
