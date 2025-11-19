@@ -1,4 +1,3 @@
-
 class CalculadoraIMC{
     constructor(p,a){
         this.peso=p;
@@ -18,10 +17,10 @@ class CalculadoraIMC{
         if(imc < 18.5){
             categoria = "Bajo peso";
             imagen = "Image/bajoPeso.png";
-        }else if(imc >= 18.5 && imc < 25){
+        }else if(imc < 25){
             categoria = "Peso normal";
             imagen = "Image/pesoNormal.jpg";
-        }else if(imc >= 25 && imc < 30){
+        }else if(imc < 30){
             categoria = "Sobrepeso";
             imagen = "Image/sobrePeso.jpg";
         }else{
@@ -32,24 +31,77 @@ class CalculadoraIMC{
         return {categoria, imagen, imc};
     }
 
+    obtenerRecomendacion(imc){
+        if(imc < 18.5) return "Te conviene subir de peso de forma saludable.";
+        if(imc < 25) return "¡Excelente! Mantén tus buenos hábitos.";
+        if(imc < 30) return "Cuida un poco tu alimentación y mantente activo.";
+        return "Intenta mejorar hábitos y considera consultar a un especialista.";
+    }
+
     generarResumen(){
-        const datos = this.obtenerCategoria();
-        return `Tu IMC es: <strong>${datos.imc}</strong> <br>
-                Por lo que tu categoría es: <strong>${datos.categoria}</strong>`;
+        const d = this.obtenerCategoria();
+        const reco = this.obtenerRecomendacion(d.imc);
+        const fecha = new Date().toLocaleString();
+
+        return `
+            Tu IMC es: <strong>${d.imc}</strong> <br>
+            Categoría: <strong>${d.categoria}</strong> <br>
+            <em>${reco}</em> <br><br>
+            <small>Fecha del cálculo: ${fecha}</small>
+        `;
     }
 }
-
 
 document.getElementById('forma').addEventListener("submit", function(e){
     e.preventDefault();
 
     const peso=parseFloat(document.getElementById('peso').value.trim());
     const altura=parseFloat(document.getElementById('altura').value.trim());
-    const objIMC=new CalculadoraIMC(peso, altura);
-    document.getElementById('resumen').innerHTML=objIMC.generarResumen();
 
+    const objIMC=new CalculadoraIMC(peso, altura);
     const datos=objIMC.obtenerCategoria();
+
+    const resumen = document.getElementById('resumen');
+    resumen.innerHTML=objIMC.generarResumen();
+    resumen.classList.add("fade");
+
     const img=document.getElementById('imagen');
     img.src=datos.imagen;
     img.style.display="block";
+    actualizarBarra(datos.imc);
+
+    guardarHistorial(datos.imc);
 });
+function actualizarBarra(imc){
+    const indicador = document.getElementById("indicador");
+    let color = "";
+
+    if(imc < 18.5) color = "blue";
+    else if(imc < 25) color = "green";
+    else if(imc < 30) color = "yellow";
+    else color = "red";
+
+    indicador.style.background=color;
+    indicador.style.width = (imc * 3) + "%";
+}
+
+function guardarHistorial(imc){
+    let his = JSON.parse(localStorage.getItem("histIMC")) || [];
+
+    his.push(imc);
+    if(his.length > 3) his.shift();
+
+    localStorage.setItem("histIMC", JSON.stringify(his));
+
+    const resumen = document.getElementById("resumen");
+    resumen.innerHTML += `<br><br><strong>Historial reciente:</strong> ${his.join(" | ")}`;
+}
+
+document.getElementById('limpiar').addEventListener("click",()=>{
+    document.getElementById('peso').value="";
+    document.getElementById('altura').value="";
+    document.getElementById('resumen').innerHTML="";
+    document.getElementById('imagen').style.display="none";
+    document.getElementById("indicador").style.width="0";
+});
+
