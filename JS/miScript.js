@@ -15,13 +15,13 @@ class CalculadoraIMC{
         let imagen = "";
 
         if(imc < 18.5){
-            categoria = "Bajo peso, oye pequeñe deberias comer más";
+            categoria = "Bajo peso, oye pequeñe deberías comer más";
             imagen = "Image/aime3.jpg";
         }else if(imc < 25){
             categoria = "Peso coquet (normal)";
             imagen = "Image/coquete.jpg";
         }else if(imc < 30){
-            categoria = "Sobrepeso vas por el camino de AimeP3";
+            categoria = "Sobrepeso, vas por el camino de AimeP3";
             imagen = "Image/aime1.jpg";
         }else{
             categoria = "Obesidad, oh no la politziaaa";
@@ -33,7 +33,6 @@ class CalculadoraIMC{
 
     generarResumen(){
         const d = this.obtenerCategoria();
-        const fecha = new Date().toLocaleString();
 
         return `
             Tu IMC es: <strong>${d.imc}</strong> <br>
@@ -45,23 +44,23 @@ class CalculadoraIMC{
 document.getElementById('forma').addEventListener("submit", function(e){
     e.preventDefault();
 
-    const peso=parseFloat(document.getElementById('peso').value.trim());
-    const altura=parseFloat(document.getElementById('altura').value.trim());
+    const peso = parseFloat(document.getElementById('peso').value.trim());
+    const altura = parseFloat(document.getElementById('altura').value.trim());
 
-    const objIMC=new CalculadoraIMC(peso, altura);
-    const datos=objIMC.obtenerCategoria();
+    const objIMC = new CalculadoraIMC(peso, altura);
+    const datos = objIMC.obtenerCategoria();
 
     const resumen = document.getElementById('resumen');
-    resumen.innerHTML=objIMC.generarResumen();
+    resumen.innerHTML = objIMC.generarResumen();
     resumen.classList.add("fade");
 
-    const img=document.getElementById('imagen');
-    img.src=datos.imagen;
-    img.style.display="block";
-    actualizarBarra(datos.imc);
+    const img = document.getElementById('imagen');
+    img.src = datos.imagen;
+    img.style.display = "block";
 
-    guardarHistorial(datos.imc);
+    actualizarBarra(datos.imc);
 });
+
 function actualizarBarra(imc){
     const indicador = document.getElementById("indicador");
     let color = "";
@@ -71,27 +70,16 @@ function actualizarBarra(imc){
     else if(imc < 30) color = "yellow";
     else color = "red";
 
-    indicador.style.background=color;
+    indicador.style.background = color;
     indicador.style.width = (imc * 3) + "%";
 }
 
-function guardarHistorial(imc){
-    let his = JSON.parse(localStorage.getItem("histIMC")) || [];
-
-    his.push(imc);
-    if(his.length > 3) his.shift();
-
-    localStorage.setItem("histIMC", JSON.stringify(his));
-
-    const resumen = document.getElementById("resumen");
-
-}
-
 document.getElementById('limpiar').addEventListener("click",()=>{
-    document.getElementById('peso').value="";
-    document.getElementById('altura').value="";
-    document.getElementById('resumen').innerHTML="";
-    document.getElementById('imagen').style.display="none";
-    document.getElementById("indicador").style.width="0";
+    document.getElementById('peso').value = "";
+    document.getElementById('altura').value = "";
+    document.getElementById('resumen').innerHTML = "";
+    document.getElementById('imagen').style.display = "none";
+    document.getElementById("indicador").style.width = "0";
 });
+
 
